@@ -1,7 +1,8 @@
-const multiplyValue = (value: number, multiplier?: number) : number => {
+export const multiplyValue = (value: number, multiplier?: number): number => {
   if (multiplier !== undefined) {
     return value * multiplier;
   }
+
   return value * 2;
 };
 
@@ -10,16 +11,22 @@ const multiplyValue = (value: number, multiplier?: number) : number => {
 
 
 
-type ProcessInputValue = string | number | boolean;
 
-const processInput = (value: ProcessInputValue): string | number => {
-  if (typeof value === "string") {
-    return value.trim().toLowerCase();
+
+
+
+export const processInput = (
+  input: string | number | boolean,
+): string | number => {
+  if (typeof input === "string") {
+    return input.trim().toLowerCase();
   }
-  if (typeof value === "number") {
-    return value * 10;
+
+  if (typeof input === "number") {
+    return input * 10;
   }
-  return value ? "Active" : "Inactive";
+
+  return input ? "Active" : "Inactive";
 };
 
 
@@ -28,13 +35,14 @@ const processInput = (value: ProcessInputValue): string | number => {
 
 
 
-type FormatCoordinateValue = readonly [number, number, string];
 
-const formatCoordinate = ([
+
+
+export const formatCoordinate = ([
   latitude,
   longitude,
   locationName,
-]: FormatCoordinateValue): string => {
+]: readonly [number, number, string]): string => {
   return `Location: ${locationName} (${latitude}, ${longitude})`;
 };
 
@@ -46,12 +54,15 @@ const formatCoordinate = ([
 
 
 
-const concatenateArrays = <T>(...arrays: T[][]): T[] => {
-  const combinedArray: T[] = [];
+
+export const concatenateArrays = <T>(...arrays: T[][]): T[] => {
+  const result: T[] = [];
+
   for (const array of arrays) {
-    combinedArray.push(...array);
+    result.push(...array);
   }
-  return combinedArray;
+
+  return result;
 };
 
 
@@ -63,22 +74,20 @@ const concatenateArrays = <T>(...arrays: T[][]): T[] => {
 
 
 
-
-interface Course {
+export interface Course {
   title: string;
   students: number;
   isPublished: boolean;
 }
 
-const getPopularCourses = (
+export const getPopularCourses = (
   courses: Course[],
   minStudents: number,
 ): Course[] => {
-  const popularCourses: Course[] = courses.filter(
+  return courses.filter(
     (course: Course): boolean =>
       course.isPublished && course.students >= minStudents,
   );
-  return popularCourses;
 };
 
 
@@ -90,17 +99,11 @@ const getPopularCourses = (
 
 
 
-
-
-
-
-
-
-
-
-const pluckValues = <T, K extends keyof T>(items: T[], key: K): T[K][] => {
-  const extractedValues: T[K][] = items.map((item: T): T[K] => item[key]);
-  return extractedValues;
+export const pluckValues = <T, K extends keyof T>(
+  items: T[],
+  key: K,
+): T[K][] => {
+  return items.map((item: T): T[K] => item[key]);
 };
 
 
@@ -112,29 +115,24 @@ const pluckValues = <T, K extends keyof T>(items: T[], key: K): T[K][] => {
 
 
 
-
-
-
-class Employee {
-  protected name: string;
-  private baseSalary: number;
-
-  constructor(name: string, baseSalary: number) {
-    this.name = name;
-    this.baseSalary = baseSalary;
-  }
+export class Employee {
+  constructor(
+    protected name: string,
+    private baseSalary: number,
+  ) {}
 
   getDetails(): string {
     return `Employee: ${this.name}, Base Salary: ${this.baseSalary}`;
   }
 }
 
-class Manager extends Employee {
-  private department: string;
-
-  constructor(name: string, baseSalary: number, department: string) {
+export class Manager extends Employee {
+  constructor(
+    name: string,
+    baseSalary: number,
+    private department: string,
+  ) {
     super(name, baseSalary);
-    this.department = department;
   }
 
   getRoleInfo(): string {
@@ -151,16 +149,14 @@ class Manager extends Employee {
 
 
 
-
-
-const validateAgeAsync = async (age: number): Promise<string> => {
+export const validateAgeAsync = async (age: number): Promise<string> => {
   if (age < 18) {
     throw new Error("Access Denied: Must be 18 or older");
   }
 
-  const delay: Promise<void> = new  Promise<void>((resolve: () => void): void => {
+  await new Promise<void>((resolve: () => void): void => {
     setTimeout(resolve, 1000);
   });
-  await delay;
+
   return "Access Granted";
 };
